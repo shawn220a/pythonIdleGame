@@ -11,11 +11,18 @@ class Store():
         self.StoreProfit = 1.50
         self.StoreCost = 3
 
+    @classmethod
+    def DisplayGameInfo(cls):
+        print('------------------------------------')
+        print('Day #' + str(cls.Day))
+        print('Money = $' + str(cls.Money))
+        print('------------------------------------')
+
     def DisplayStoreInfo(self):
         print('------------------------------------')
-        print('Day #' + str(Store.Day))
+        print('Store Name' + self.StoreName +
+              ', Store Count = ' + str(self.StoreCount))
         print('Money = $' + str(Store.Money))
-        print('Store Count = ' + str(self.StoreCount))
         print('------------------------------------')
 
     def BuyStore(self):
@@ -25,30 +32,25 @@ class Store():
         else:
             print('You don\'t have enough money.')
 
-    # def NextDay(self):
-    #     Store.Day += 1
-    #     DailyProfit = self.StoreProfit * self.StoreCount
-    #     Store.Money += DailyProfit
+    def NextDay(self):
+        Store.Day += 1
+        DailyProfit = self.StoreProfit * self.StoreCount
+        Store.Money += DailyProfit
 
 
-newstore = Store()
-print(newstore.StoreName)
-newstore.BuyStore()
-print(newstore.StoreCount)
+while True:
+    Store.DisplayGameInfo()
+    CurrentStore = Store()
+    print('Available option (N)ext Day, (B)uy Store, (Q)uit')
+    result = input('Please Enter Your Selection:')
 
-# while True:
-#     DisplayStoreInfo()
-
-#     print('Available option (N)ext Day, (B)uy Store, (Q)uit')
-#     result = input('Please Enter Your Selection:')
-
-#     if result == 'B' or result == 'b':
-#         StoreCount, Money = BuyStore(StoreCount, Money)
-#     elif result == 'N' or result == 'n':
-#         Day, Money = NextDay(Day, Money)
-#     elif result == 'Q' or result == 'q':
-#         break
-#     else:
-#         print('Invalid Input. Try Again.')
+    if result == 'B' or result == 'b':
+        CurrentStore.BuyStore()
+    elif result == 'N' or result == 'n':
+        CurrentStore.NextDay()
+    elif result == 'Q' or result == 'q':
+        break
+    else:
+        print('Invalid Input. Try Again.')
 
 print('Thank you for playing Python Idle Tycoon')
