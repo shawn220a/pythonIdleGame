@@ -40,9 +40,11 @@ while True:
 
     if result == 'B' or result == 'b':
         StoreCount, Money = BuyStore(StoreCount, Money)
-    if result == 'N' or result == 'n':
+    elif result == 'N' or result == 'n':
         Day, Money = NextDay(Day, Money)
-    if result == 'Q' or result == 'q':
+    elif result == 'Q' or result == 'q':
         break
+    else:
+        print('Invalid Input. Try Again.')
 
 print('Thank you for playing Python Idle Tycoon')
