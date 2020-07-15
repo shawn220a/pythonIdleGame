@@ -44,10 +44,13 @@ class Store():
         else:
             print('You don\'t have enough money.')
 
-    def NextDay(self):
-        Store.Day += 1
-        DailyProfit = self.StoreProfit * self.StoreCount
-        Store.Money += DailyProfit
+    @classmethod
+    def NextDay(cls):
+        cls.Day += 1
+
+        for store in cls.StoreList:
+            DailyProfit = store.StoreProfit * store.StoreCount
+            cls.Money += DailyProfit
 
 
 Store.StoreList.append(Store('Lemonade Stand', 1.50, 3))
