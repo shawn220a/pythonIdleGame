@@ -20,21 +20,27 @@ class Store():
         print('------------------------------------')
         print('Stores'.ljust(25) + 'Store Cost'.ljust(15) + 'Store Count')
 
+        storeIndex = 1
+
         for store in cls.StoreList:
-            store.DisplayStoreInfo()
+            store.DisplayStoreInfo(storeIndex)
+            storeIndex += 1
 
         print('------------------------------------')
 
-    def DisplayStoreInfo(self):
+    def DisplayStoreInfo(self, storeIndex):
         StoreCostStr = '${:0,.2f}'.format(self.StoreCost).rjust(12)
 
-        print(self.StoreName.ljust(20) +
+        print(str(storeIndex) + ') ' + self.StoreName.ljust(17) +
               StoreCostStr.ljust(20) + str(self.StoreCount))
 
     def BuyStore(self):
-        if self.StoreCost <= Store.Money:
-            self.StoreCount += 1
-            Store.Money -= self.StoreCost
+        whichStore = int(input('Which Store do you wish to buy?'))
+        store = Store.StoreList[whichStore - 1]
+
+        if store.StoreCost <= Store.Money:
+            store.StoreCount += 1
+            Store.Money -= store.StoreCost
         else:
             print('You don\'t have enough money.')
 
