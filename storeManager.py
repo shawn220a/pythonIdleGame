@@ -1,5 +1,4 @@
 FormatMoney = '${:0,.2f}'
-Divider = '------------------------------------'
 
 
 class Store():
@@ -14,20 +13,12 @@ class Store():
         self.StoreCost = storeCost
 
     @classmethod
-    def DisplayGameInfo(cls):
-        print(Divider)
-        print('Day #' + str(cls.Day))
-        print('Money = %s' % FormatMoney.format(cls.Money))
-        print(Divider)
-        print('Stores'.ljust(25) + 'Store Cost'.ljust(15) + 'Store Count')
-
+    def DisplayStores(cls):
         storeIndex = 1
 
         for store in cls.StoreList:
             store.DisplayStoreInfo(storeIndex)
             storeIndex += 1
-
-        print(Divider)
 
     @classmethod
     def NextDay(cls):
