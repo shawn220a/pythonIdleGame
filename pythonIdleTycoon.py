@@ -15,14 +15,12 @@ class Store():
     def DisplayGameInfo(cls):
         print('------------------------------------')
         print('Day #' + str(cls.Day))
-        print('Money = $' + str(cls.Money))
+        print('Money = ${:0, .2f}'.format(cls.Money))
         print('------------------------------------')
 
     def DisplayStoreInfo(self):
         print('------------------------------------')
-        print('Store Name' + self.StoreName +
-              ', Store Count = ' + str(self.StoreCount))
-        print('Money = $' + str(Store.Money))
+        print('Store Name %s, Store Count = %d' % (self.StoreName, self.StoreCount))
         print('------------------------------------')
 
     def BuyStore(self):
@@ -38,9 +36,11 @@ class Store():
         Store.Money += DailyProfit
 
 
+CurrentStore = Store()
+
 while True:
     Store.DisplayGameInfo()
-    CurrentStore = Store()
+    CurrentStore.DisplayStoreInfo()
     print('Available option (N)ext Day, (B)uy Store, (Q)uit')
     result = input('Please Enter Your Selection:')
 
