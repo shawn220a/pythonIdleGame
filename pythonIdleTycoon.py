@@ -81,7 +81,7 @@ while True:
     if result == 'B' or result == 'b':
         Store.StoreList[0].SelectStore()
     elif result == 'N' or result == 'n':
-        Store.StoreList[0].NextDay()
+        Store.NextDay()
     elif result == 'Q' or result == 'q':
         break
     else:
