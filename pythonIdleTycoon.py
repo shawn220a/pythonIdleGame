@@ -28,6 +28,14 @@ class Store():
 
         print('------------------------------------')
 
+    @classmethod
+    def NextDay(cls):
+        cls.Day += 1
+
+        for store in cls.StoreList:
+            DailyProfit = store.StoreProfit * store.StoreCount
+            cls.Money += DailyProfit
+
     def DisplayStoreInfo(self, storeIndex):
         StoreCostStr = '${:0,.2f}'.format(self.StoreCost).rjust(12)
 
@@ -43,14 +51,6 @@ class Store():
             Store.Money -= store.StoreCost
         else:
             print('You don\'t have enough money.')
-
-    @classmethod
-    def NextDay(cls):
-        cls.Day += 1
-
-        for store in cls.StoreList:
-            DailyProfit = store.StoreProfit * store.StoreCount
-            cls.Money += DailyProfit
 
 
 Store.StoreList.append(Store('Lemonade Stand', 1.50, 3))
