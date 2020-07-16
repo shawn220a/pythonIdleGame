@@ -45,7 +45,7 @@ class Store():
         self.storeNameLabel = tk.Label(root, text=self.StoreName)
         self.storeNameLabel.grid(row=4 + storeIndex, column=0)
 
-        self.storeCostLabel = tk.Label(root, text=self.StoreCost)
+        self.storeCostLabel = tk.Label(root, text=FormatMoney.format(self.StoreCost))
         self.storeCostLabel.grid(row=4 + storeIndex, column=1)
 
         self.storeCountLabel = tk.Label(root, text=self.StoreCount)
