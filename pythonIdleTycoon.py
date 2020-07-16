@@ -47,30 +47,36 @@ class Store():
         self.StoreCount = 0
         self.StoreProfit = float(storeProfit)
         self.StoreCost = float(storeCost)
-        self.Timer = storeTimer
+        self.Timer = float(storeTimer)
         self.ManagerUnlocked = False
         self.ManagerCost = float(managerCost)
         self.TimerObject = StoreTimer(self)
 
     @classmethod
     def DisplayStores(cls):
-        store_label_col1 = tk.Label(root, text='Store Name')
-        store_label_col1.grid(row=4, column=0)
+        store_label_col1 = tk.Label(
+            root, text='Store Name', font='Helvetica 12 bold')
+        store_label_col1.grid(row=4, column=0, padx=15)
 
-        store_label_col2 = tk.Label(root, text='Progress')
-        store_label_col2.grid(row=4, column=1)
+        store_label_col2 = tk.Label(
+            root, text='Progress', font='Helvetica 12 bold')
+        store_label_col2.grid(row=4, column=1, padx=15)
 
-        store_label_col3 = tk.Label(root, text='Store Cost')
-        store_label_col3.grid(row=4, column=2)
+        store_label_col3 = tk.Label(
+            root, text='Store Cost', font='Helvetica 12 bold')
+        store_label_col3.grid(row=4, column=2, padx=15)
 
-        store_label_col4 = tk.Label(root, text='Store Count')
-        store_label_col4.grid(row=4, column=3)
+        store_label_col4 = tk.Label(
+            root, text='Store Count', font='Helvetica 12 bold')
+        store_label_col4.grid(row=4, column=3, padx=15)
 
-        store_label_col5 = tk.Label(root, text='Buy Store')
-        store_label_col5.grid(row=4, column=4)
+        store_label_col5 = tk.Label(
+            root, text='Buy Store', font='Helvetica 12 bold')
+        store_label_col5.grid(row=4, column=4, padx=15)
 
-        store_label_col6 = tk.Label(root, text='Buy Manager')
-        store_label_col6.grid(row=4, column=5)
+        store_label_col6 = tk.Label(
+            root, text='Buy Manager', font='Helvetica 12 bold')
+        store_label_col6.grid(row=4, column=5, padx=15)
 
         storeIndex = 1
 
@@ -88,27 +94,31 @@ class Store():
 
     def DisplayStoreInfo(self, storeIndex):
         self.clickStoreButton = tk.Button(
-            root, text=self.StoreName, command=lambda: self.ClickStore())
-        self.clickStoreButton.grid(row=4 + storeIndex, column=0)
+            root, text=self.StoreName, width=20, font='10', command=lambda: self.ClickStore())
+        self.clickStoreButton.grid(row=4 + storeIndex, column=0, padx=15, pady=10)
 
         self.progressBar = ttk.Progressbar(
             root, value=0, maximum=100, orient=tk.HORIZONTAL, length=100, mode='indeterminate')
-        self.progressBar.grid(row=4 + storeIndex, column=1)
+        self.progressBar.grid(row=4 + storeIndex, column=1, padx=15, pady=10)
 
         self.storeCostLabel = tk.Label(
-            root, text=FormatMoney.format(self.StoreCost))
-        self.storeCostLabel.grid(row=4 + storeIndex, column=2)
+            root, text=FormatMoney.format(self.StoreCost), font='10')
+        self.storeCostLabel.grid(
+            row=4 + storeIndex, column=2, padx=15, pady=10)
 
-        self.storeCountLabel = tk.Label(root, text=self.StoreCount)
-        self.storeCountLabel.grid(row=4 + storeIndex, column=3)
+        self.storeCountLabel = tk.Label(root, text=self.StoreCount, font='10')
+        self.storeCountLabel.grid(
+            row=4 + storeIndex, column=3, padx=15, pady=10)
 
         self.clickBuyButton = tk.Button(
-            root, text='Buy', command=lambda: self.BuyStore())
-        self.clickBuyButton.grid(row=4 + storeIndex, column=4)
+            root, text='Buy: ' + FormatMoney.format(self.StoreCost), font='10', command=lambda: self.BuyStore())
+        self.clickBuyButton.grid(
+            row=4 + storeIndex, column=4, padx=15, pady=10)
 
         self.clickBuyManagerButton = tk.Button(
-            root, text='Manager: ' + FormatMoney.format(self.ManagerCost), command=lambda: self.UnlockManager())
-        self.clickBuyManagerButton.grid(row=4 + storeIndex, column=5)
+            root, text='Manager: ' + FormatMoney.format(self.ManagerCost), font='10', command=lambda: self.UnlockManager())
+        self.clickBuyManagerButton.grid(
+            row=4 + storeIndex, column=5, padx=15, pady=10)
 
     def BuyStore(self):
         if self.StoreCost <= Store.Money:
@@ -145,12 +155,10 @@ class GameManager():
     def DisplayGameHeader(self):
         root.title('Python Idle Tycoon Business Game')
 
-        root.geometry('700x300')
+        root.geometry('1000x300')
 
-        money_label = tk.Label(root, text='Money')
-        money_label.grid(row=0, column=0)
         self.moneyAmount_label = tk.Label(
-            root, text=FormatMoney.format(Store.Money))
+            root, text=FormatMoney.format(Store.Money), font='Helvetica 18 bold')
         self.moneyAmount_label.grid(row=1, column=0)
 
     def DisplayStoreList(self):
