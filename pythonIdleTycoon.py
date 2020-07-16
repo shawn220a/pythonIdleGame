@@ -95,7 +95,8 @@ class Store():
     def DisplayStoreInfo(self, storeIndex):
         self.clickStoreButton = tk.Button(
             root, text=self.StoreName, width=20, font='10', command=lambda: self.ClickStore())
-        self.clickStoreButton.grid(row=4 + storeIndex, column=0, padx=15, pady=10)
+        self.clickStoreButton.grid(
+            row=4 + storeIndex, column=0, padx=15, pady=10)
 
         self.progressBar = ttk.Progressbar(
             root, value=0, maximum=100, orient=tk.HORIZONTAL, length=100, mode='indeterminate')
@@ -130,14 +131,14 @@ class Store():
             print('You don\'t have enough money.')
 
     def UnlockManager(self):
-        if self.ManagerUnlocked == False:
-            if self.ManagerCost <= Store.Money:
-                self.ManagerUnlocked = True
-                Store.Money -= self.ManagerCost
-                self.storeCountLabel.config(text=self.StoreCount)
-                Game.UpdateUI()
-            else:
-                print('You don\'t have enough money.')
+        if self.ManagerCost <= Store.Money:
+            self.clickBuyManagerButton.configure(state='disabled')
+            self.ManagerUnlocked = True
+            Store.Money -= self.ManagerCost
+            self.storeCountLabel.config(text=self.StoreCount)
+            Game.UpdateUI()
+        else:
+            print('You don\'t have enough money.')
 
 
 class GameManager():
