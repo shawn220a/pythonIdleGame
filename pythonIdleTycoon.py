@@ -29,18 +29,23 @@ class StoreTimer():
             self.store.progressBar['value'] = 0
             self.store.MakeMoney()
 
+            if self.store.ManagerUnlocked == True:
+                self.StartTimer()
+
 
 class Store():
     Money = 25.00
     Day = 1
     StoreList = []
 
-    def __init__(self, storeName, storeProfit, storeCost, storeTimer):
+    def __init__(self, storeName, storeProfit, storeCost, storeTimer, managerCost):
         self.StoreName = storeName
         self.StoreCount = 0
         self.StoreProfit = storeProfit
         self.StoreCost = storeCost
         self.Timer = storeTimer
+        self.ManagerUnlocked = False
+        self.ManagerCost = managerCost
 
     @classmethod
     def DisplayStores(cls):
@@ -55,6 +60,12 @@ class Store():
 
         store_label_col4 = tk.Label(root, text='Store Count')
         store_label_col4.grid(row=4, column=3)
+
+        store_label_col5 = tk.Label(root, text='Buy Store')
+        store_label_col5.grid(row=4, column=4)
+
+        store_label_col6 = tk.Label(root, text='Buy Manager')
+        store_label_col6.grid(row=4, column=5)
 
         storeIndex = 1
 
@@ -75,7 +86,8 @@ class Store():
             root, text=self.StoreName, command=lambda: self.ClickStore())
         self.clickStoreButton.grid(row=4 + storeIndex, column=0)
 
-        self.progressBar = ttk.Progressbar(root, value=0, maximum=100, orient=tk.HORIZONTAL, length=100, mode='indeterminate')
+        self.progressBar = ttk.Progressbar(
+            root, value=0, maximum=100, orient=tk.HORIZONTAL, length=100, mode='indeterminate')
         self.progressBar.grid(row=4 + storeIndex, column=1)
 
         self.storeCostLabel = tk.Label(
@@ -89,6 +101,10 @@ class Store():
             root, text='Buy', command=lambda: self.BuyStore())
         self.clickBuyButton.grid(row=4 + storeIndex, column=4)
 
+        self.clickBuyManagerButton = tk.Button(
+            root, text='Manager: ' + FormatMoney.format(self.ManagerCost), command=lambda: self.UnlockManager())
+        self.clickBuyManagerButton.grid(row=4 + storeIndex, column=5)
+
     def BuyStore(self):
         if self.StoreCost <= Store.Money:
             self.StoreCount += 1
@@ -98,6 +114,17 @@ class Store():
         else:
             print('You don\'t have enough money.')
 
+    def UnlockManager(self):
+        if self.ManagerUnlocked == False:
+            if self.ManagerCost <= Store.Money:
+                self.ManagerUnlocked = True
+                Store.Money -= self.ManagerCost
+                self.storeCountLabel.config(text=self.StoreCount)
+                Game.UpdateUI()
+            else:
+                print('You don\'t have enough money.')
+        
+
 
 class GameManager():
     def __init__(self):
@@ -106,9 +133,9 @@ class GameManager():
         self.DisplayStoreList()
 
     def CreateStore(self):
-        Store.StoreList.append(Store('Lemonade Stand', 1.50, 3, 3))
-        Store.StoreList.append(Store('Record Store', 5, 15, 10))
-        Store.StoreList.append(Store('Ice Cream Store', 10, 90, 30))
+        Store.StoreList.append(Store('Lemonade Stand', 1.50, 3, 3, 100))
+        Store.StoreList.append(Store('Record Store', 5, 15, 10, 200))
+        Store.StoreList.append(Store('Ice Cream Store', 10, 90, 30, 1000))
 
     def DisplayGameHeader(self):
         root.title('Python Idle Tycoon Business Game')
