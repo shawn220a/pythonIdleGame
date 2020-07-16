@@ -13,11 +13,13 @@ class StoreTimer():
     def __init__(self, store):
         self.Timer = store.Timer
         self.store = store
-        self.StartTimer()
+        self.TimerRunning = False
 
     def StartTimer(self):
-        self.startTime = time.time()
-        root.after(StoreTimer.UpdateFreq, self.UpdateTimer)
+        if self.TimerRunning == False:
+            self.TimerRunning = True
+            self.startTime = time.time()
+            root.after(StoreTimer.UpdateFreq, self.UpdateTimer)
 
     def UpdateTimer(self):
         elapsed = time.time() - self.startTime
@@ -26,6 +28,7 @@ class StoreTimer():
             self.store.progressBar['value'] = elapsed / self.Timer * 100
             root.after(StoreTimer.UpdateFreq, self.UpdateTimer)
         else:
+            self.TimerRunning = False
             self.store.progressBar['value'] = 0
             self.store.MakeMoney()
 
@@ -35,7 +38,6 @@ class StoreTimer():
 
 class Store():
     Money = 25.00
-    Day = 1
     StoreList = []
 
     def __init__(self, storeName, storeProfit, storeCost, storeTimer, managerCost):
@@ -46,6 +48,7 @@ class Store():
         self.Timer = storeTimer
         self.ManagerUnlocked = False
         self.ManagerCost = managerCost
+        self.TimerObject = StoreTimer(self)
 
     @classmethod
     def DisplayStores(cls):
@@ -74,7 +77,7 @@ class Store():
             storeIndex += 1
 
     def ClickStore(self):
-        StoreTimer(self)
+        self.TimerObject.StartTimer()
 
     def MakeMoney(self):
         DailyProfit = self.StoreProfit * self.StoreCount
@@ -123,7 +126,6 @@ class Store():
                 Game.UpdateUI()
             else:
                 print('You don\'t have enough money.')
-        
 
 
 class GameManager():
