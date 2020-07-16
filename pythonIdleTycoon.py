@@ -33,54 +33,42 @@ class Store():
             store.DisplayStoreInfo(storeIndex)
             storeIndex += 1
 
-    @classmethod
-    def NextDay(cls):
-        cls.Day += 1
-
-        for store in cls.StoreList:
-            DailyProfit = store.StoreProfit * store.StoreCount
-            cls.Money += DailyProfit
+    def MakeMoney(self):
+        DailyProfit = self.StoreProfit * self.StoreCount
+        Store.Money += DailyProfit
+        Game.UpdateUI()
 
     def DisplayStoreInfo(self, storeIndex):
-        self.storeNameLabel = tk.Label(root, text=self.StoreName)
-        self.storeNameLabel.grid(row=4 + storeIndex, column=0)
+        self.clickStoreButton = tk.Button(
+            root, text=self.StoreName, command=lambda: self.MakeMoney())
+        self.clickStoreButton.grid(row=4 + storeIndex, column=0)
 
-        self.storeCostLabel = tk.Label(root, text=FormatMoney.format(self.StoreCost))
+        self.storeCostLabel = tk.Label(
+            root, text=FormatMoney.format(self.StoreCost))
         self.storeCostLabel.grid(row=4 + storeIndex, column=1)
 
         self.storeCountLabel = tk.Label(root, text=self.StoreCount)
         self.storeCountLabel.grid(row=4 + storeIndex, column=2)
 
-    def SelectStore(self):
-        try:
-            whichStore = int(
-                input('Which Store do you wish to buy? (1-%s):' % len(Store.StoreList)))
-        except:
-            print('Invalid Input. Buy Aborted')
-            return
+        self.clickBuyButton = tk.Button(
+            root, text='Buy', command=lambda: self.BuyStore())
+        self.clickBuyButton.grid(row=4 + storeIndex, column=3)
 
-        self.VerifyStore(whichStore)
-
-    def BuyStore(self, store):
-        if store.StoreCost <= Store.Money:
-            store.StoreCount += 1
-            Store.Money -= store.StoreCost
+    def BuyStore(self):
+        if self.StoreCost <= Store.Money:
+            self.StoreCount += 1
+            Store.Money -= self.StoreCost
+            self.storeCountLabel.config(text=self.StoreCount)
+            Game.UpdateUI()
         else:
             print('You don\'t have enough money.')
-
-    def VerifyStore(self, whichStore):
-        if whichStore >= 1 and whichStore <= len(Store.StoreList):
-            self.BuyStore(Store.StoreList[whichStore - 1])
-        else:
-            print('Invalid Selection. Enter a number 1-%s' %
-                  len(Store.StoreList))
 
 
 class GameManager():
     def __init__(self):
         self.CreateStore()
         self.DisplayGameHeader()
-        Store.DisplayStores()
+        self.DisplayStoreList()
 
     def CreateStore(self):
         Store.StoreList.append(Store('Lemonade Stand', 1.50, 3))
@@ -94,17 +82,15 @@ class GameManager():
 
         money_label = tk.Label(root, text='Money')
         money_label.grid(row=0, column=0)
-        moneyAmount_label = tk.Label(
+        self.moneyAmount_label = tk.Label(
             root, text=FormatMoney.format(Store.Money))
-        moneyAmount_label.grid(row=1, column=0)
-
-        day_label = tk.Label(root, text='Day')
-        day_label.grid(row=0, column=1)
-        dayAmount_label = tk.Label(root, text=Store.Day)
-        dayAmount_label.grid(row=1, column=1)
+        self.moneyAmount_label.grid(row=1, column=0)
 
     def DisplayStoreList(self):
-        pass
+        Store.DisplayStores()
+
+    def UpdateUI(self):
+        self.moneyAmount_label.config(text=FormatMoney.format(Store.Money))
 
 
 root = tk.Tk()
