@@ -42,7 +42,7 @@ class Store():
     Money = 25.00
     StoreList = []
 
-    def __init__(self, storeName, storeProfit, storeCost, storeTimer, managerCost):
+    def __init__(self, storeName, storeProfit, storeCost, storeTimer, managerCost, growthFactor):
         self.StoreName = storeName
         self.StoreCount = 0
         self.StoreProfit = float(storeProfit)
@@ -51,6 +51,7 @@ class Store():
         self.ManagerUnlocked = False
         self.ManagerCost = float(managerCost)
         self.TimerObject = StoreTimer(self)
+        self.GrowthFactor = float(growthFactor)
 
     @classmethod
     def DisplayStores(cls):
@@ -122,20 +123,23 @@ class Store():
             row=4 + storeIndex, column=5, padx=15, pady=10)
 
     def BuyStore(self):
-        if self.StoreCost <= Store.Money:
+        NextStoreCost = self.StoreCost + self.GrowthFactor * self.StoreCount
+        if NextStoreCost <= Store.Money:
             self.StoreCount += 1
-            Store.Money -= self.StoreCost
+            Store.Money -= NextStoreCost
             self.storeCountLabel.config(text=self.StoreCount)
+            NextStoreCost = self.StoreCost + self.GrowthFactor * self.StoreCount
+            self.clickBuyButton.config(
+                text='Buy: ' + FormatMoney.format(NextStoreCost))
             Game.UpdateUI()
-        else:
-            print('You don\'t have enough money.')
+        # elif NextStoreCost > Store.Money:
+        #     self.clickBuyButton.configure(state='disabled')
 
     def UnlockManager(self):
         if self.ManagerCost <= Store.Money:
             self.clickBuyManagerButton.configure(state='disabled')
             self.ManagerUnlocked = True
             Store.Money -= self.ManagerCost
-            self.storeCountLabel.config(text=self.StoreCount)
             Game.UpdateUI()
         else:
             print('You don\'t have enough money.')
