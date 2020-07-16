@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import time
+import csv
 
 FormatMoney = '${:0,.2f}'
+dataFile = 'data.csv'
 
 print('Welcome to Python Idle Tycoon!!!!')
 
@@ -43,11 +45,11 @@ class Store():
     def __init__(self, storeName, storeProfit, storeCost, storeTimer, managerCost):
         self.StoreName = storeName
         self.StoreCount = 0
-        self.StoreProfit = storeProfit
-        self.StoreCost = storeCost
+        self.StoreProfit = float(storeProfit)
+        self.StoreCost = float(storeCost)
         self.Timer = storeTimer
         self.ManagerUnlocked = False
-        self.ManagerCost = managerCost
+        self.ManagerCost = float(managerCost)
         self.TimerObject = StoreTimer(self)
 
     @classmethod
@@ -135,9 +137,10 @@ class GameManager():
         self.DisplayStoreList()
 
     def CreateStore(self):
-        Store.StoreList.append(Store('Lemonade Stand', 1.50, 3, 3, 100))
-        Store.StoreList.append(Store('Record Store', 5, 15, 10, 200))
-        Store.StoreList.append(Store('Ice Cream Store', 10, 90, 30, 1000))
+        with open(dataFile, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                Store.StoreList.append(Store(*row))
 
     def DisplayGameHeader(self):
         root.title('Python Idle Tycoon Business Game')
